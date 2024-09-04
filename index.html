@@ -1,18 +1,92 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Пример письма для Outlook</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Formatter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin-bottom: 10px;
+        }
+        .output {
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 100%;
+            height: auto;
+            min-height: 100px;
+            margin-top: 10px;
+            background-color: #f9f9f9;
+            white-space: pre-wrap;
+        }
+        button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    <h2>Здравствуйте!</h2>
 
-    <p>Это пример письма с разметкой HTML для Outlook.</p>
+<h2>Введите данные (email и пароль):</h2>
+<textarea id="inputText" placeholder="Введите email и пароль по одному на строке..."></textarea>
 
-    <p><strong>Жирный текст</strong> и <a href="https://example.com">гиперссылка на сайт</a>.</p>
+<button onclick="convertToHtml()">Конвертировать в HTML</button>
+<button onclick="copyToClipboard()">Копировать HTML</button>
 
-    <p>Вы также можете использовать <em>курсив</em> и другие элементы форматирования.</p>
+<h2>Сгенерированный HTML:</h2>
+<div id="outputHtml" class="output"></div>
 
-    <p>С уважением,<br>Ваша команда</p>
+<script>
+    function convertToHtml() {
+        const input = document.getElementById('inputText').value.trim();
+        const lines = input.split(/\r?\n/);
+        let outputHtml = '';
+
+        if (lines.length % 2 !== 0) {
+            alert('Неправильный формат данных. Пожалуйста, убедитесь, что для каждого email указан пароль.');
+            return;
+        }
+
+        for (let i = 0; i < lines.length; i += 2) {
+            const email = lines[i].trim();
+            const password = lines[i + 1].trim();
+            outputHtml += `Ім’я користувача: <b>${email}</b><br>`;
+            outputHtml += `Тимчасовий пароль: <b>${password}</b><br><br>`;
+        }
+
+        // Выводим HTML в div
+        document.getElementById('outputHtml').innerHTML = outputHtml;
+    }
+
+    function copyToClipboard() {
+        const outputHtml = document.getElementById('outputHtml').innerHTML;
+
+        if (outputHtml === '') {
+            alert('Нет данных для копирования.');
+            return;
+        }
+
+        // Создаем временный элемент textarea
+        const tempTextarea = document.createElement('textarea');
+        tempTextarea.value = outputHtml;
+        document.body.appendChild(tempTextarea);
+
+        // Выбираем и копируем текст
+        tempTextarea.select();
+        document.execCommand('copy');
+
+        // Удаляем временный элемент
+        document.body.removeChild(tempTextarea);
+
+        alert('HTML текст скопирован в буфер обмена!');
+    }
+</script>
+
 </body>
 </html>
