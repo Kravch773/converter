@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,23 +33,24 @@
 </head>
 <body>
 
-<h2>Введите данные (email и пароль):</h2>
-<textarea id="inputText" placeholder="Введите email и пароль по одному на строке..."></textarea>
+<h2>Введіть дані (email та пароль):</h2>
+<textarea id="inputText" placeholder="Введіть email та пароль по одному на рядок..."></textarea>
 
-<button onclick="convertToHtml()">Конвертировать в HTML</button>
-<button onclick="copyToClipboard()">Копировать HTML</button>
+<button onclick="convertToHtml()">Конвертувати в HTML</button>
+<button onclick="clearFields()">Очистити поля</button>
 
-<h2>Сгенерированный HTML:</h2>
+<h2>Згенерований HTML:</h2>
 <div id="outputHtml" class="output"></div>
 
 <script>
+    // Функція для конвертації введених даних у HTML
     function convertToHtml() {
         const input = document.getElementById('inputText').value.trim();
         const lines = input.split(/\r?\n/);
         let outputHtml = '';
 
         if (lines.length % 2 !== 0) {
-            alert('Неправильный формат данных. Пожалуйста, убедитесь, что для каждого email указан пароль.');
+            alert('Неправильний формат даних. Будь ласка, переконайтеся, що для кожного email вказано пароль.');
             return;
         }
 
@@ -60,31 +61,14 @@
             outputHtml += `Тимчасовий пароль: <b>${password}</b><br><br>`;
         }
 
-        // Выводим HTML в div
+        // Виводимо HTML в div
         document.getElementById('outputHtml').innerHTML = outputHtml;
     }
 
-    function copyToClipboard() {
-        const outputHtml = document.getElementById('outputHtml').innerHTML;
-
-        if (outputHtml === '') {
-            alert('Нет данных для копирования.');
-            return;
-        }
-
-        // Создаем временный элемент textarea
-        const tempTextarea = document.createElement('textarea');
-        tempTextarea.value = outputHtml;
-        document.body.appendChild(tempTextarea);
-
-        // Выбираем и копируем текст
-        tempTextarea.select();
-        document.execCommand('copy');
-
-        // Удаляем временный элемент
-        document.body.removeChild(tempTextarea);
-
-        alert('HTML текст скопирован в буфер обмена!');
+    // Функція для очищення полів
+    function clearFields() {
+        document.getElementById('inputText').value = ''; // Очищення текстової області
+        document.getElementById('outputHtml').innerHTML = ''; // Очищення результатів
     }
 </script>
 
