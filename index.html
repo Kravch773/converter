@@ -56,12 +56,14 @@
 
         for (let i = 0; i < lines.length; i += 2) {
             const email = lines[i].trim();
-            const password = lines[i + 1].trim();
+            // Видаляємо слово "Приховати" (з урахуванням різних регістрів та зайвих пробілів)
+            const password = lines[i + 1].replace(/Приховати/gi, '').trim();
+
             outputHtml += `Ім’я користувача: <b>${email}</b><br>`;
             outputHtml += `Тимчасовий пароль: <b>${password}</b><br><br>`;
         }
 
-        // Виводимо HTML в div
+        // Виводимо HTML у div
         document.getElementById('outputHtml').innerHTML = outputHtml;
     }
 
